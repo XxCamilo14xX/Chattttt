@@ -14,5 +14,21 @@
         "email": "user@chat.com",
         "rol": "user",
         "img": "https://i.pravatar.cc/150?img=2"
+    },
+    {
+        "id": 3,
+        "name": "Alek",
+        "password": "Hollownest55822502",
+        "email": "user@chat.com",
+        "rol": "user",
+        "img": "https://i.pinimg.com/736x/c0/a4/84/c0a484ddfb2f3e0f0d36d32d5b4cd0df.jpg"
+    },
+    {
+        "id": 4,
+        "name": "Camus",
+        "password": "987654",
+        "email": "user@chat.com",
+        "rol": "user",
+        "img": "https://i.pravatar.cc/150?img=2"
     }
 ]
