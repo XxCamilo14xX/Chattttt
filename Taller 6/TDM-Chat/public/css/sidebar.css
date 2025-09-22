@@ -57,3 +57,65 @@
 .status.online { background: #2ecc71; }
 .status.offline { background: #e74c3c; }
 .status.away { background: #f1c40f; }
+
+.left-sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #1f1f2e;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    padding: 15px 10px;
+    box-sizing: border-box;
+    position: fixed;
+    left: 0;
+    top: 0;
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.search-bar {
+    margin-bottom: 15px;
+}
+
+.search-bar input {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+    background: #2a2b3d;
+    color: #fff;
+}
+
+.group-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.group-list li {
+    background: #2a2b3d;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.group-list li:hover {
+    background: #3c3d52;
+}

@@ -28,6 +28,22 @@
             <button type="submit" class="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
         </form>
     </div>
+    
+    <!-- Sidebar izquierda -->
+    <aside class="left-sidebar">
+        <div class="profile">
+            <img id="currentUserImg" src="" alt="Avatar" class="avatar">
+            <p id="currentUserName"></p>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="groupSearch" placeholder="Buscar grupo...">
+        </div>
+
+        <ul id="groupList" class="group-list">
+            <!-- Grupos dinámicos -->
+        </ul>
+    </aside>   
 
     <!-- Sidebar de usuarios -->
     <aside id="userSidebar" class="user-sidebar">
@@ -38,6 +54,8 @@
             </button>
         </div>
         <ul id="userList">
+
+         
             <!-- usuarios dinámicos -->
         </ul>
     </aside>
