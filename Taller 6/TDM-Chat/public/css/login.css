@@ -1,0 +1,139 @@
+/* Fondo general gaming */
+body {
+    background: linear-gradient(135deg, #0d0d0d, #1a0033, #000000);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Orbitron', sans-serif; /* tipografía gamer/futurista */
+    color: #e0e0ff;
+    margin: 0;
+}
+
+/* Login */
+.login-container {
+    background: rgba(15, 15, 30, 0.9);
+    padding: 30px 25px;
+    border-radius: var(--radius-lg);
+    border: 2px solid #6a0dad;
+    box-shadow: 0 0 25px rgba(106, 13, 173, 0.7);
+    width: 100%;
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    backdrop-filter: blur(6px);
+}
+
+h1 {
+    margin-bottom: 25px;
+    color: #ffffff;
+    text-shadow: 0 0 10px #b366ff, 0 0 20px #6a0dad;
+    font-size: 2rem;
+    letter-spacing: 2px;
+}
+
+/* Formulario */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+}
+
+input {
+    padding: var(--spacing-md);
+    border: 1px solid #6a0dad;
+    border-radius: var(--radius-md);
+    font-size: var(--font-size-lg);
+    background: #0d0d0d;
+    color: #e0e0ff;
+    transition: 0.3s;
+}
+
+input:focus {
+    border-color: #b366ff;
+    box-shadow: 0 0 10px #6a0dad;
+    outline: none;
+}
+
+/* Botón principal */
+.btn-primary {
+    background: linear-gradient(90deg, #6a0dad, #b366ff);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    padding: var(--spacing-md);
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 0 15px #b366ff;
+    transform: scale(1.05);
+}
+
+/* Divider */
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: var(--spacing-xl) 0;
+    width: 100%;
+}
+
+.divider span {
+    flex: 1;
+    border-bottom: 1px solid #333;
+    line-height: 0;
+    margin: 0 var(--spacing-md);
+    color: #aaa;
+    font-size: var(--font-size-sm);
+}
+
+/* Botón Google */
+.btn-google {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 1px solid #6a0dad;
+    border-radius: var(--radius-md);
+    background: #1a1a1a;
+    color: #e0e0ff;
+    cursor: pointer;
+    font-size: var(--font-size-md);
+    transition: 0.3s;
+}
+
+.btn-google img {
+    width: var(--spacing-xl);
+    height: var(--spacing-xl);
+}
+
+.btn-google:hover {
+    background: #2a003f;
+    box-shadow: 0 0 10px #6a0dad;
+}
+
+/* Error */
+.error {
+    color: #ff4d4d;
+    margin-top: var(--spacing-lg);
+    text-align: center;
+    font-size: var(--spacing-md);
+}
+
+/* Responsivo Login */
+@media (max-width: 480px) {
+    .login-container {
+        margin: 0 var(--spacing-lg);
+        padding: 25px var(--spacing-xl);
+    }
+}
+
+
