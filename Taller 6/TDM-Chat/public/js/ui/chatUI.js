@@ -10,8 +10,16 @@ fixChatHeight();
 export function addMessage(user, text, isSelf = false) {
     const msgEl = document.createElement("div");
     msgEl.classList.add("message");
-    if (isSelf) msgEl.classList.add("self");
-    msgEl.innerHTML = `<strong>${user}: </strong>${text}`;
+
+    if (user.toLowerCase() === "admin") {
+        msgEl.classList.add("admin");
+    } else if (isSelf) {
+        msgEl.classList.add("self");
+    } else {
+        msgEl.classList.add("user");
+    }
+
+    msgEl.innerHTML = `<strong>${user}:</strong> ${text}`;
     messagesDiv.appendChild(msgEl);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }

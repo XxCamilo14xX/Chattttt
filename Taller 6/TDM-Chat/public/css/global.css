@@ -42,7 +42,7 @@ body {
     height: 100vh;
     align-items: center;
     justify-content: center;
-    color: var(--color-black);
+    color: var(--color-white);
 }
 
 /* Botones base */
@@ -79,4 +79,10 @@ body {
     .chat-header h2 {
         font-size: var(--font-size-md);
     }
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
