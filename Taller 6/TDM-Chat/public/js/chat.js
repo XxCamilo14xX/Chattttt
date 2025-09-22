@@ -14,6 +14,28 @@ const logoutBtn = document.getElementById("logoutBtn");
 const sidebar = document.getElementById("userSidebar");
 const toggleBtn = document.getElementById("usersToggle");
 const closeBtn = document.getElementById("closeSidebar");
+const userImgEl = document.getElementById("currentUserImg");
+const userNameEl = document.getElementById("currentUserName");
+
+if (user.img && user.img.trim() !== "") {
+    userImgEl.src = user.img;
+} else {
+    userImgEl.src = "/img/default-avatar.png"; // fallback si no hay imagen
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const chatTitle = document.getElementById("chat-username");
+  const userPanel = document.getElementById("userPanel");
+  const closePanel = document.getElementById("closePanel");
+
+  chatTitle.addEventListener("click", () => {
+    userPanel.classList.add("active");
+  });
+
+  closePanel.addEventListener("click", () => {
+    userPanel.classList.remove("active");
+  });
+});
 
 // Conectar al WebSocket
 connect(user);

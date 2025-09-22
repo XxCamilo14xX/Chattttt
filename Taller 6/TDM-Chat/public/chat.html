@@ -14,7 +14,7 @@
         <header class="chat-header">
             <h2 id="chat-username">Bienvenido</h2>
             <div class="header-actions">
-                <button id="usersToggle" class="icon-btn"><i class="fa-solid fa-users"></i></button>
+                <!-- <button id="usersToggle" class="icon-btn"><i class="fa-solid fa-users"></i></button> -->
                 <button id="logoutBtn" class="icon-btn"><i class="fa-solid fa-right-from-bracket"></i></button>
             </div>
         </header>
@@ -45,20 +45,18 @@
         </ul>
     </aside>   
 
-    <!-- Sidebar de usuarios -->
-    <aside id="userSidebar" class="user-sidebar">
-        <div class="sidebar-header">
+        <!-- Pestaña de usuarios conectados (pantalla completa) -->
+    <div id="userPanel" class="user-panel">
+        <div class="panel-header">
             <h3>Usuarios conectados</h3>
-            <button id="closeSidebar" class="icon-btn close-btn">
+            <button id="closePanel" class="icon-btn close-btn">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
         <ul id="userList">
-
-         
             <!-- usuarios dinámicos -->
         </ul>
-    </aside>
+    </div>
 
     <script type="module" src="./js/chat.js"></script>
 </body>

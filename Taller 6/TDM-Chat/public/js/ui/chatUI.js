@@ -33,7 +33,59 @@ export function addSystemMessage(text) {
 }
 
 export function updateUserList(users) {
+     const userList = document.getElementById("userList");
     userList.innerHTML = "";
+
+    // Agrupación por rol o equipo (puedes ajustar a tus datos)
+    const groups = {
+        admin: [],
+        equipoA: [],
+        equipoB: []
+    };
+
+    // Clasificar usuarios
+    users.forEach(u => {
+        if (u.rol === "admin") {
+            groups.admin.push(u);
+        } else if (u.team === "A") {
+            groups.equipoA.push(u);
+        } else if (u.team === "B") {
+            groups.equipoB.push(u);
+        }
+    });
+
+    // Función para renderizar un bloque
+    function renderGroup(title, members) {
+        if (members.length === 0) return "";
+
+        let html = `
+            <div class="user-group">
+                <h4>${title}</h4>
+                <hr/>
+        `;
+
+        members.forEach(u => {
+            html += `
+                <div class="user-item">
+                    <img src="${u.img}" alt="${u.name}" class="avatar-img">
+                    <span class="user-name">${u.name}</span>
+                    <span class="status ${u.connected ? "online" : "offline"}"></span>
+                </div>
+            `;
+        });
+
+        html += `</div>`;
+        return html;
+    }
+
+    // Insertar al sidebar
+    userList.innerHTML =
+        renderGroup("Admin", groups.admin) +
+        renderGroup("Equipo A", groups.equipoA) +
+        renderGroup("Equipo B", groups.equipoB);
+
+
+
     users.forEach(u => {
         const li = document.createElement("li");
         li.classList.add("user-item");
