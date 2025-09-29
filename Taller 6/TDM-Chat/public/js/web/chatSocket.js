@@ -1,44 +1,74 @@
-import { addMessage, addSystemMessage, updateUserList } from "../ui/chatUI.js";
+import { addMessage, addSystemMessage, updateUserList, loadGroupMessages } from '../ui/chatUI.js';
 
-let socket;
+let ws;
+let currentUser = null;
 
 export function connect(user) {
-    let wsUrl = location.hostname === "localhost" ? "ws://localhost:3000" : `wss://${location.host}`;
+    currentUser = user;
+    ws = new WebSocket("ws://localhost:3000");
 
-    socket = new WebSocket(wsUrl);
-
-    socket.addEventListener("open", () => {
-        socket.send(JSON.stringify({
-            type: "login",
-            user
-        }));
-    });
-
-    socket.addEventListener("message", (event) => {
-        const data = JSON.parse(event.data);
-
-        switch (data.type) {
-            case "chat":
-                addMessage(data.user, data.text, data.user === user.name);
-                break;
-            case "system":
-                addSystemMessage(data.text);
-                break;
-            case "users":
-                updateUserList(data.users);
-                break;
-            default:
-                throw new Error("Tipo de mensaje desconocido: " + data.type);
+    ws.onopen = () => {
+        console.log("Conectado al WebSocket");
+        ws.send(JSON.stringify({ type: "login", user }));
+        
+        // Restaurar grupo anterior si existe
+        const savedGroup = localStorage.getItem('currentGroup');
+        if (savedGroup) {
+            const group = JSON.parse(savedGroup);
+            requestGroupMessages(group.id);
         }
-    });
+    };
+
+    ws.onmessage = (event) => {
+        const data = JSON.parse(event.data);
+        console.log("Mensaje recibido:", data);
+        
+        if (data.type === "chat") {
+            // Solo mostrar mensajes del grupo actual
+            const currentGroup = JSON.parse(localStorage.getItem('currentGroup'));
+            if (currentGroup && data.groupId === currentGroup.id) {
+                const isSelf = data.user === currentUser.name;
+                addMessage(data.user, data.text, isSelf);
+            }
+        } else if (data.type === "system") {
+            addSystemMessage(data.text);
+        } else if (data.type === "users") {
+            updateUserList(data.users);
+        } else if (data.type === "group_messages") {
+            // Cargar mensajes históricos del grupo
+            loadGroupMessages(data.messages);
+        }
+    };
+
+    ws.onerror = (error) => {
+        console.error("WebSocket error:", error);
+    };
+
+    ws.onclose = () => {
+        console.log("Conexión WebSocket cerrada");
+    };
 }
 
-export function sendMessage(user, text) {
-    if (!socket || socket.readyState !== WebSocket.OPEN) return;
+export function sendMessage(user, text, groupId) {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+        const messageData = {
+            type: "chat",
+            user: user,
+            text: text,
+            groupId: groupId || 1
+        };
+        console.log("Enviando mensaje:", messageData);
+        ws.send(JSON.stringify(messageData));
+    } else {
+        console.error("WebSocket no está conectado");
+    }
+}
 
-    socket.send(JSON.stringify({
-        type: "chat",
-        user: user,
-        text
-    }));
+export function requestGroupMessages(groupId) {
+    if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({
+            type: "get_group_messages",
+            groupId: groupId
+        }));
+    }
 }

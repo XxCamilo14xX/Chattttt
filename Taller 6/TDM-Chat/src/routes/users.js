@@ -1,10 +1,18 @@
-const { getUsers, saveUsers } = require("../models/users");
+const { getUsers, saveUsers, getGroups } = require("../models/users");
 
 function handleUsersRoutes(req, res) {
     if (req.url.startsWith("/api/users")) {
         const method = req.method;
         const parts = req.url.split("/").filter(Boolean);
         const id = parts[2] ? parseInt(parts[2]) : null;
+
+        // GET /api/groups
+        if (method === "GET" && parts[2] === "groups") {
+            const groups = getGroups();
+            res.writeHead(200, { "Content-Type": "application/json" });
+            res.end(JSON.stringify(groups));
+            return true;
+        }
 
         // GET /api/users
         if (method === "GET" && parts.length === 2) {
@@ -15,16 +23,16 @@ function handleUsersRoutes(req, res) {
         }
 
         // GET /api/users/:id
-        if (method === "GET" && parts.length === 3 && id) {
-            const users = getUsers();
-            const user = users.find(u => u.id === id);
-            if (!user) {
+        if (method === "GET" && parts[2] === "groups" && parts[3]) {
+            const groups = getGroups();
+            const group = groups.find(g => g.id === parseInt(parts[3]));
+            if (!group) {
                 res.writeHead(404);
-                res.end(JSON.stringify({ error: "Usuario no encontrado" }));
+                res.end(JSON.stringify({ error: "Grupo no encontrado" }));
                 return true;
             }
             res.writeHead(200, { "Content-Type": "application/json" });
-            res.end(JSON.stringify(user));
+            res.end(JSON.stringify(group));
             return true;
         }
 

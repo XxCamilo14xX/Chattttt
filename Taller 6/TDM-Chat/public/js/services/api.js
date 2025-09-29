@@ -54,3 +54,15 @@ export async function deleteUser(id) {
     if (!res.ok) throw new Error("Error al eliminar usuario");
     return res.json();
 }
+
+export async function getGroups() {
+    const res = await fetch(`${API_USERS_URL}/groups`);
+    if (!res.ok) throw new Error("Error al cargar grupos");
+    return res.json();
+}
+
+export async function getGroup(id) {
+    const res = await fetch(`${API_USERS_URL}/groups/${id}`);
+    if (!res.ok) throw new Error("Grupo no encontrado");
+    return res.json();
+}

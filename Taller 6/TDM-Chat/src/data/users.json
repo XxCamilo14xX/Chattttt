@@ -1,34 +1,59 @@
-[
+{
+  "users": [
     {
-        "id": 1,
-        "name": "Admin",
-        "password": "1234",
-        "email": "admin@chat.com",
-        "rol": "admin",
-        "img": "https://i.pravatar.cc/150?img=1"
+      "id": 1,
+      "name": "Admin",
+      "password": "1234",
+      "email": "admin@chat.com",
+      "rol": "admin",
+      "img": "https://i.pravatar.cc/150?img=1"
     },
     {
-        "id": 2,
-        "name": "Usuario",
-        "password": "abcd",
-        "email": "user@chat.com",
-        "rol": "user",
-        "img": "https://i.pravatar.cc/150?img=2"
+      "id": 2,
+      "name": "Usuario",
+      "password": "abcd",
+      "email": "user@chat.com",
+      "rol": "user",
+      "img": "https://i.pravatar.cc/150?img=2"
     },
     {
-        "id": 3,
-        "name": "Alek",
-        "password": "Hollownest55822502",
-        "email": "user@chat.com",
-        "rol": "user",
-        "img": "https://i.pinimg.com/736x/c0/a4/84/c0a484ddfb2f3e0f0d36d32d5b4cd0df.jpg"
+      "id": 3,
+      "name": "Alek",
+      "password": "Hollownest55822502",
+      "email": "user@chat.com",
+      "rol": "user",
+      "img": "https://i.pinimg.com/736x/c0/a4/84/c0a484ddfb2f3e0f0d36d32d5b4cd0df.jpg"
     },
     {
-        "id": 4,
-        "name": "Camilol",
-        "password": "987654",
-        "email": "user@chat.com",
-        "rol": "user",
-        "img": "https://i.pravatar.cc/150?img=2"
+      "id": 4,
+      "name": "Camilol",
+      "password": "987654",
+      "email": "user@chat.com",
+      "rol": "user",
+      "img": "https://i.pravatar.cc/150?img=2"
     }
-]
+  ],
+  "groups": [
+    {
+      "id": 1,
+      "name": "General",
+      "description": "Chat general del equipo",
+      "img": "https://cdn-icons-png.flaticon.com/512/1006/1006771.png",
+      "members": [1, 2, 3, 4]
+    },
+    {
+      "id": 2,
+      "name": "Desarrollo",
+      "description": "Equipo de desarrollo",
+      "img": "https://cdn-icons-png.flaticon.com/512/1006/1006771.png",
+      "members": [1, 2]
+    },
+    {
+      "id": 3,
+      "name": "Diseño",
+      "description": "Equipo de diseño",
+      "img": "https://cdn-icons-png.flaticon.com/512/1006/1006771.png",
+      "members": [3, 4]
+    }
+  ]
+}
