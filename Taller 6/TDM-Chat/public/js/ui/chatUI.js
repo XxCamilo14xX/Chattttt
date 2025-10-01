@@ -195,7 +195,7 @@ export function loadGroupMessages(messages) {
             addMessage(msg.user, msg.text, isSelf);
         });
         
-        addSystemMessage(`--- Fin de los mensajes históricos ---`);
+        // addSystemMessage(`--- Fin de los mensajes históricos ---`);
         
         // Forzar scroll al final después de cargar todos los mensajes históricos
         setTimeout(scrollToBottom, 100);
