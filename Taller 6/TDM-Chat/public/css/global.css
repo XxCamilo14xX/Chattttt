@@ -1,16 +1,19 @@
 :root {
-    /* Colors */
-    --color-primary: #007bff;
-    --color-secondary: #00c6ff;
-    --color-tertiary: #3a6592;
-    --color-hover: #0056b3;
-    --color-online: #4caf50;
-    --color-offline: #f44336;
-    --color-background: #fafafa;
+    /* Colors - Tema oscuro neón morado/azul */
+    --color-primary: #8a2be2; /* Violeta azulado */
+    --color-secondary: #9370db; /* Morado medio */
+    --color-tertiary: #6a5acd; /* Azul pizarra */
+    --color-accent: #00bfff; /* Azul neón */
+    --color-accent-2: #7b68ee; /* Azul pizarra medio */
+    --color-hover: #9b30ff; /* Morado neón */
+    --color-online: #00ff00; /* Verde neón */
+    --color-offline: #ff4444; /* Rojo neón */
+    --color-background: #0a0a0a; /* Negro */
+    --color-surface: #1a1a1a; /* Gris oscuro */
+    --color-surface-2: #2d2d2d; /* Gris medio */
     --color-white: #ffffff;
-    --color-light-grey: #ddd;
-    --color-grey: #535353;
-    --color-black: #000000;
+    --color-text: #e0e0ff; /* Azul claro */
+    --color-text-secondary: #b8b8ff; /* Morado claro */
 
     /* Font sizes */
     --font-size-xs: 12px;
@@ -30,19 +33,20 @@
     --spacing-md: 12px;
     --spacing-lg: 16px;
     --spacing-xl: 20px;
+
+    /* Efectos neón */
+    --neon-glow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
+    --neon-glow-soft: 0 0 5px currentColor, 0 0 10px currentColor;
 }
 
 /* Global */
 body {
-    font-family: Inter, sans-serif;
+    font-family: 'Orbitron', 'Inter', sans-serif;
     margin: 0;
     padding: 0;
-    background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
-    display: flex;
-    height: 100vh;
-    align-items: center;
-    justify-content: center;
-    color: var(--color-white);
+    background: linear-gradient(135deg, var(--color-background), #1a0033);
+    color: var(--color-text);
+    overflow: hidden;
 }
 
 /* Botones base */
@@ -50,28 +54,38 @@ body {
     padding: var(--spacing-md);
     border: none;
     border-radius: var(--radius-md);
-    background: var(--color-primary);
+    background: linear-gradient(135deg, var(--color-primary), var(--color-accent-2));
     color: var(--color-white);
     font-size: var(--font-size-lg);
     cursor: pointer;
-    transition: background 0.3s;
+    transition: all 0.3s ease;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .btn-primary:hover {
-    background: var(--color-hover);
+    background: linear-gradient(135deg, var(--color-hover), var(--color-accent));
+    box-shadow: var(--neon-glow-soft);
+    transform: translateY(-2px);
 }
 
 .icon-btn {
-    background: none;
-    border: none;
-    color: var(--color-white);
+    background: rgba(138, 43, 226, 0.1);
+    border: 1px solid var(--color-primary);
+    color: var(--color-text);
     font-size: var(--font-size-lg);
     cursor: pointer;
-    padding: var(--spacing-xs);
+    padding: var(--spacing-sm);
+    border-radius: 50%;
+    transition: all 0.3s ease;
 }
 
 .icon-btn:hover {
-    opacity: 0.8;
+    background: rgba(138, 43, 226, 0.3);
+    box-shadow: var(--neon-glow-soft);
+    border-color: var(--color-accent);
+    transform: scale(1.1);
 }
 
 /* Responsivo Global */
@@ -79,10 +93,4 @@ body {
     .chat-header h2 {
         font-size: var(--font-size-md);
     }
-}
-
-.chat-container {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
 }
