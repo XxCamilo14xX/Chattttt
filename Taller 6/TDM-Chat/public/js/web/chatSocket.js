@@ -6,7 +6,8 @@ let currentGroupId = null;
 
 export function connect(user) {
     currentUser = user;
-    ws = new WebSocket("ws://localhost:3000");
+    et wsUrl = location.hostname === "localhost" ? "ws://localhost:3000" : `wss://${location.host}`;
+    ws = new WebSocket(wsUrl);
 
     ws.onopen = () => {
         console.log("Conectado al WebSocket");
@@ -94,3 +95,4 @@ export function setCurrentGroup(groupId) {
     currentGroupId = groupId;
     console.log("Grupo actual establecido:", groupId);
 }
+
