@@ -66,7 +66,7 @@ export function addSystemMessage(text) {
     
     const msgEl = document.createElement("div");
     msgEl.classList.add("message", "system");
-    msgEl.innerHTML = `<em>⚙️ ${text}</em>`;
+    msgEl.innerHTML = `<em> ${text}</em>`;
     messagesDiv.appendChild(msgEl);
     
     if (shouldScroll) {

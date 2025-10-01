@@ -195,12 +195,12 @@
 }
 
 .message.system {
-    background: linear-gradient(135deg, #ffa500, #ffd700);
+    background: linear-gradient(135deg, #7300ff, #2e0345);
     color: white;
     margin: 8px auto;
     text-align: center;
     max-width: 90%;
     font-style: italic;
-    box-shadow: 0 0 15px rgba(255, 165, 0, 0.5);
-    border: 1px solid #ffa500;
+    box-shadow: 0 0 15px rgba(235, 233, 236, 0.5);
+    border: 1px solid #a58abc;
 }

@@ -30,7 +30,7 @@
       "password": "987654",
       "email": "user@chat.com",
       "rol": "user",
-      "img": "https://i.pravatar.cc/150?img=2"
+      "img": "https://i.pinimg.com/736x/e7/cb/19/e7cb190b0b190484d682f17b98276061.jpg"
     }
   ],
   "groups": [
@@ -38,21 +38,21 @@
       "id": 1,
       "name": "General",
       "description": "Chat general del equipo",
-      "img": "https://cdn-icons-png.flaticon.com/512/1006/1006771.png",
+      "img": "https://i.pinimg.com/736x/b8/64/eb/b864ebdadb1286b256e0fa5556e9bacb.jpg",
       "members": [1, 2, 3, 4]
     },
     {
       "id": 2,
       "name": "Desarrollo",
       "description": "Equipo de desarrollo",
-      "img": "https://cdn-icons-png.flaticon.com/512/1006/1006771.png",
+      "img": "https://i.pinimg.com/736x/65/1f/c9/651fc903a24eff7f5134e9fbd8d49cf7.jpg",
       "members": [1, 2]
     },
     {
       "id": 3,
       "name": "Diseño",
       "description": "Equipo de diseño",
-      "img": "https://cdn-icons-png.flaticon.com/512/1006/1006771.png",
+      "img": "https://i.pinimg.com/736x/63/29/55/63295581d4022a75944155853f8d5695.jpg",
       "members": [3, 4]
     }
   ]

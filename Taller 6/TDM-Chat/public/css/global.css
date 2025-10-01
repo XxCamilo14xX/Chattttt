@@ -34,9 +34,7 @@
     --spacing-lg: 16px;
     --spacing-xl: 20px;
 
-    /* Efectos neón */
-    --neon-glow: 0 0 10px currentColor, 0 0 20px currentColor, 0 0 30px currentColor;
-    --neon-glow-soft: 0 0 5px currentColor, 0 0 10px currentColor;
+
 }
 
 /* Global */
@@ -72,7 +70,7 @@ body {
 
 .icon-btn {
     background: rgba(138, 43, 226, 0.1);
-    border: 1px solid var(--color-primary);
+    border: 1px solid var(--color-text);
     color: var(--color-text);
     font-size: var(--font-size-lg);
     cursor: pointer;
