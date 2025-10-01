@@ -146,8 +146,12 @@
     animation: fadeIn 0.3s ease-in;
     border: 1px solid transparent;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    white-space: normal;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }
+
 
 .message::before {
     content: '';
