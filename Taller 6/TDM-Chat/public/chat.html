@@ -2,24 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>ChatApp - Chat</title>
     <link rel="stylesheet" href="./css/global.css"/>
     <link rel="stylesheet" href="./css/chat.css"/>
-    <link rel="stylesheet" href="./css/sidebar.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
 </head>
 <body>
+    <!-- Overlay para móviles -->
+    <div class="sidebar-overlay"></div>
+
+    <!-- Sidebar de Grupos -->
+<aside class="groups-sidebar">
+    <div class="sidebar-header">
+        <div class="user-profile">
+            <img id="currentUserImg" src="" alt="Avatar" class="user-avatar-large">
+            <div class="user-name" id="currentUserName"></div>
+        </div>
+        <button class="close-sidebar">
+            <i class="fa-solid fa-times"></i>
+        </button>
+    </div>
+    
+    <div class="search-bar-groups">
+        <input type="text" id="groupSearch" placeholder="Buscar grupo...">
+    </div>
+    
+    <div class="groups-list" id="groupsList">
+        <!-- Grupos se cargarán aquí dinámicamente -->
+    </div>
+</aside>
+
+    <!-- Chat Principal -->
     <div class="chat-container">
         <header class="chat-header">
-            <h2 id="chat-username">Bienvenido</h2>
+            <button class="toggle-groups-sidebar">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <h2 id="chat-group-name">Selecciona un grupo</h2>
             <div class="header-actions">
                 <button id="usersToggle" class="icon-btn"><i class="fa-solid fa-users"></i></button>
                 <button id="logoutBtn" class="icon-btn"><i class="fa-solid fa-right-from-bracket"></i></button>
             </div>
         </header>
 
-        <!-- Panel de usuarios conectados (overlay superior) -->
+        <!-- Panel de usuarios conectados -->
         <div id="userPanel" class="user-panel">
             <div class="panel-header">
                 <h3>Usuarios Conectados</h3>
@@ -35,7 +62,15 @@
         </div>
 
         <main class="chat-main">
-            <div id="messages" class="messages"></div>
+            <div id="messages" class="messages">
+                <div class="welcome-message">
+                    <div class="welcome-content">
+                        <i class="fa-solid fa-comments"></i>
+                        <h3>Bienvenido al Chat</h3>
+                        <p>Selecciona un grupo para comenzar a chatear</p>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <form id="chatForm" class="chat-input">
@@ -43,22 +78,6 @@
             <button type="submit" class="send-btn"><i class="fa-solid fa-paper-plane"></i></button>
         </form>
     </div>
-    
-    <!-- Sidebar izquierda -->
-    <aside class="left-sidebar">
-        <div class="profile">
-            <img id="currentUserImg" src="" alt="Avatar" class="avatar">
-            <p id="currentUserName"></p>
-        </div>
-
-        <div class="search-bar">
-            <input type="text" id="groupSearch" placeholder="Buscar grupo...">
-        </div>
-
-        <ul id="groupList" class="group-list">
-            <!-- Grupos dinámicos -->
-        </ul>
-    </aside>   
 
     <script type="module" src="./js/chat.js"></script>
 </body>
