@@ -482,3 +482,37 @@
     transition: all 0.3s ease;
 }
 
+#closePanel {
+    background: #e74c3c;
+    border: none;
+    color: white;
+    font-size: 1.5em;
+    cursor: pointer;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    margin: 0;
+    padding: 0;
+}
+
+#closePanel:hover {
+    background: #c0392b;
+    transform: scale(1.1);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: #34495e;
+}
+
+.panel-header h3 {
+    margin: 0;
+    color: white;
+}

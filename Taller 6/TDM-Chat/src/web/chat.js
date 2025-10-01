@@ -2,7 +2,7 @@ const broadcast = require("../utils/broadcast");
 const { getUsers, getGroups } = require("../models/users");
 
 let connectedUsers = [];
-let groupMessages = {}; // { [groupId]: [{ user, text, timestamp, messageId }] }
+let groupMessages = {}; // Almacenamiento en memoria de los mensajes por grupo
 
 function setupChat(wss) {
     wss.on("connection", (ws, req) => {
@@ -43,24 +43,28 @@ function setupChat(wss) {
                 if (data.type === "chat") {
                     console.log(`Mensaje de ${data.user}: ${data.text} para grupo ${data.groupId}`);
                     
-                    // Almacenar mensaje en el grupo
+                    // Almacenar mensaje en el grupo correcto
                     const message = {
                         user: data.user,
                         text: data.text,
                         timestamp: new Date().toISOString(),
-                        messageId: Date.now() + Math.random().toString(36).substr(2, 9)
+                        messageId: Date.now() + Math.random().toString(36).substr(2, 9),
+                        groupId: data.groupId
                     };
                     
+                    // Asegurarnos de que el grupo existe en el almacenamiento
                     if (!groupMessages[data.groupId]) {
                         groupMessages[data.groupId] = [];
                     }
                     
                     groupMessages[data.groupId].push(message);
                     
-                    // Limitar historial a 100 mensajes por grupo
-                    if (groupMessages[data.groupId].length > 100) {
-                        groupMessages[data.groupId] = groupMessages[data.groupId].slice(-100);
+                    // Limitar historial a 200 mensajes por grupo (para no sobrecargar memoria)
+                    if (groupMessages[data.groupId].length > 200) {
+                        groupMessages[data.groupId] = groupMessages[data.groupId].slice(-200);
                     }
+
+                    console.log(`Mensaje guardado en grupo ${data.groupId}. Total mensajes: ${groupMessages[data.groupId].length}`);
 
                     // Transmitir mensaje a todos los usuarios conectados
                     broadcast(connectedUsers, { 
@@ -72,12 +76,16 @@ function setupChat(wss) {
                     });
                 }
 
-                // Nuevo: solicitud de mensajes de un grupo
+                // Solicitud de mensajes de un grupo
                 if (data.type === "get_group_messages") {
-                    const messages = groupMessages[data.groupId] || [];
+                    const groupId = data.groupId;
+                    const messages = groupMessages[groupId] || [];
+                    
+                    console.log(`Enviando ${messages.length} mensajes para grupo ${groupId} al usuario ${currentUser?.name}`);
+                    
                     ws.send(JSON.stringify({
                         type: "group_messages",
-                        groupId: data.groupId,
+                        groupId: groupId,
                         messages: messages
                     }));
                 }

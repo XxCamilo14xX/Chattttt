@@ -1,4 +1,4 @@
-import { requestGroupMessages } from '../web/chatSocket.js';
+import { requestGroupMessages, setCurrentGroup } from '../web/chatSocket.js';
 
 const messagesDiv = document.getElementById("messages");
 const userList = document.getElementById("userList");
@@ -12,11 +12,31 @@ function fixChatHeight() {
 window.addEventListener("resize", fixChatHeight);
 fixChatHeight();
 
+// Función mejorada para hacer scroll al final
+function scrollToBottom() {
+    if (!messagesDiv) return;
+    
+    // Usar requestAnimationFrame para asegurar que el DOM se ha actualizado
+    requestAnimationFrame(() => {
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+}
+
+// Función para verificar si el usuario está cerca del final del chat
+function isNearBottom() {
+    if (!messagesDiv) return true;
+    const threshold = 100; // 100px desde el fondo
+    return messagesDiv.scrollTop + messagesDiv.clientHeight >= messagesDiv.scrollHeight - threshold;
+}
+
 export function addMessage(user, text, isSelf = false) {
     if (!messagesDiv) {
         console.error("messagesDiv no encontrado");
         return;
     }
+    
+    // Verificar si el usuario está viendo los mensajes más recientes
+    const shouldScroll = isNearBottom();
     
     const msgEl = document.createElement("div");
     msgEl.classList.add("message");
@@ -31,34 +51,54 @@ export function addMessage(user, text, isSelf = false) {
 
     msgEl.innerHTML = `<strong>${user}:</strong> ${text}`;
     messagesDiv.appendChild(msgEl);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    
+    // Solo hacer scroll si el usuario está cerca del final
+    if (shouldScroll) {
+        scrollToBottom();
+    }
 }
 
 export function addSystemMessage(text) {
     if (!messagesDiv) return;
     
+    // Siempre hacer scroll para mensajes del sistema
+    const shouldScroll = isNearBottom();
+    
     const msgEl = document.createElement("div");
     msgEl.classList.add("message", "system");
     msgEl.innerHTML = `<em>⚙️ ${text}</em>`;
     messagesDiv.appendChild(msgEl);
-    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    
+    if (shouldScroll) {
+        scrollToBottom();
+    }
 }
 
 export function updateUserList(users) {
-    if (!userList) return;
-    
-    userList.innerHTML = "";
-    
-    if (users.length === 0) {
-        userList.innerHTML = '<li class="no-users">No hay usuarios conectados</li>';
+    if (!userList) {
+        console.error("userList no encontrado");
         return;
     }
     
+    userList.innerHTML = "";
+    
     // Filtrar solo usuarios conectados
     const connectedUsers = users.filter(u => u.connected);
+    const totalUsers = connectedUsers.length;
     
-    if (connectedUsers.length === 0) {
-        userList.innerHTML = '<li class="no-users">No hay usuarios conectados</li>';
+    // Actualizar contador
+    const usersCount = document.getElementById("usersCount");
+    if (usersCount) {
+        usersCount.textContent = `${totalUsers} usuario${totalUsers !== 1 ? 's' : ''} conectado${totalUsers !== 1 ? 's' : ''}`;
+    }
+    
+    if (totalUsers === 0) {
+        userList.innerHTML = `
+            <li class="no-users">
+                <i class="fa-solid fa-user-slash" style="font-size: 2em; margin-bottom: 10px; display: block;"></i>
+                No hay usuarios conectados
+            </li>
+        `;
         return;
     }
     
@@ -69,12 +109,12 @@ export function updateUserList(users) {
             <img src="${u.img}" alt="${u.name}" class="avatar-img">
             <span class="user-name">${u.name}</span>
             <span class="status ${u.connected ? "online" : "offline"}"></span>
+            ${u.rol === 'admin' ? '<span class="user-role admin-role"><i class="fa-solid fa-crown"></i></span>' : ''}
         `;
         userList.appendChild(li);
     });
 }
 
-// Nueva función para actualizar la lista de grupos
 export function updateGroupList(groups, onGroupClick) {
     const groupList = document.getElementById("groupList");
     if (!groupList) {
@@ -97,18 +137,25 @@ export function updateGroupList(groups, onGroupClick) {
             </div>
         `;
 
-        groupEl.addEventListener("click", () => onGroupClick(group));
+        groupEl.addEventListener("click", () => {
+            console.log("Grupo seleccionado:", group.id, group.name);
+            onGroupClick(group);
+        });
         groupList.appendChild(groupEl);
     });
 }
 
-// Función para cambiar el chat activo
 export function setActiveGroup(group) {
+    console.log("Cambiando al grupo activo:", group.id, group.name);
+    
     // Actualizar el header
     const chatTitle = document.getElementById("chat-username");
     if (chatTitle) {
         chatTitle.textContent = group.name;
     }
+    
+    // Actualizar el grupo actual en el WebSocket
+    setCurrentGroup(group.id);
     
     // Limpiar mensajes actuales
     if (messagesDiv) {
@@ -119,28 +166,39 @@ export function setActiveGroup(group) {
     addSystemMessage(`Cargando mensajes de ${group.name}...`);
     
     // Solicitar mensajes históricos del grupo
+    console.log("Solicitando mensajes para el grupo:", group.id);
     requestGroupMessages(group.id);
     
     // Guardar grupo actual en localStorage para persistencia
     localStorage.setItem('currentGroup', JSON.stringify(group));
 }
 
-// Función para cargar mensajes históricos
 export function loadGroupMessages(messages) {
     if (!messagesDiv) return;
     
-    // Limpiar mensajes (excepto el mensaje de sistema de carga)
+    // Limpiar mensajes anteriores
     messagesDiv.innerHTML = "";
+    
+    console.log("Cargando", messages.length, "mensajes en la interfaz");
     
     if (messages.length === 0) {
         addSystemMessage(`No hay mensajes en este grupo. ¡Sé el primero en escribir!`);
     } else {
-        addSystemMessage(`Mostrando ${messages.length} mensajes anteriores`);
+        addSystemMessage(`Cargados ${messages.length} mensajes anteriores`);
         
-        messages.forEach(msg => {
-            const isSelf = msg.user === JSON.parse(localStorage.getItem('user')).name;
+        // Ordenar mensajes por timestamp (por si acaso)
+        const sortedMessages = messages.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+        
+        sortedMessages.forEach(msg => {
+            const currentUserData = JSON.parse(localStorage.getItem('user'));
+            const isSelf = msg.user === currentUserData.name;
             addMessage(msg.user, msg.text, isSelf);
         });
+        
+        addSystemMessage(`--- Fin de los mensajes históricos ---`);
+        
+        // Forzar scroll al final después de cargar todos los mensajes históricos
+        setTimeout(scrollToBottom, 100);
     }
 }
 
@@ -174,3 +232,5 @@ export function saveUser(user) {
 export function redirectToChat() {
     window.location.href = "/chat.html";
 }
+
+export { scrollToBottom };
